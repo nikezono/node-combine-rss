@@ -1,5 +1,6 @@
 node-combine-rss
 ---
+[![Build Status](https://travis-ci.org/nikezono/node-parse-rss.png)](https://travis-ci.org/nikezono/node-combine-rss)
 
 combine rss feeds in url
 
