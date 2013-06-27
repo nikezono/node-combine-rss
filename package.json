@@ -1,0 +1,37 @@
+{
+  "name": "combine-rss",
+  "description": "combine rss feeds",
+  "version": "0.0.3",
+  "author": "nikezono",
+  "dependencies": {
+    "async": "*",
+    "underscore":"*",
+    "parse-rss":"*",
+    "rss":"*"
+  },
+  "devDependencies": {
+    "coffee-script": "*",
+    "assert":"*",
+    "mocha": "*"
+  },
+  "keywords": [
+    "rss",
+    "atom",
+    "feed",
+    "combine",
+    "join"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nikezono/node-combine-rss"
+  },
+  "main": "./lib/combine-rss.js",
+  "scripts": {
+    "test"   : "./node_modules/.bin/cake test",
+    "compile": "./node_modules/.bin/cake compile"
+    },
+  "engines": {
+    "node": "*"
+  },
+  "license": "BSD"
+}
