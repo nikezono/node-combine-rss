@@ -56,9 +56,10 @@ module.exports.combiner = ->
   combine: (callback)->
     rss.init()
     async.forEach urls,(url,cb)->
-      parser url, (articles)->
+      parser url, (err,articles)->
+        return cb() if err
         rss.articles = rss.articles.concat articles
-        cb()
+        return cb()
     ,->
       rss.articles = _.sortBy _.uniq(rss.articles), (article)->
         return article.pubDate.getTime()
