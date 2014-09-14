@@ -2,17 +2,19 @@
   "name": "combine-rss",
   "description": "combine rss feeds",
   "version": "0.0.3",
-  "author": "nikezono",
+  "author": {
+    "name": "nikezono"
+  },
   "dependencies": {
     "async": "*",
-    "underscore":"*",
-    "parse-rss":"*",
-    "rss":"*"
+    "underscore": "*",
+    "feed-read": "*"
   },
   "devDependencies": {
     "coffee-script": "*",
-    "assert":"*",
-    "mocha": "*"
+    "assert": "*",
+    "mocha": "*",
+    "path": "*"
   },
   "keywords": [
     "rss",
@@ -27,11 +29,19 @@
   },
   "main": "./lib/combine-rss.js",
   "scripts": {
-    "test"   : "./node_modules/.bin/cake test",
+    "test": "./node_modules/.bin/cake test",
     "compile": "./node_modules/.bin/cake compile"
-    },
+  },
   "engines": {
     "node": "*"
   },
-  "license": "BSD"
+  "license": "BSD",
+  "readme": "node-combine-rss\n---\n\ncombine rss feeds in url\n\ninput multiple rss feeds, then output single xml url\n\ncombined rss object can deal like below.\n\n##install\n\n***using npm:***\n\n    npm install combine-rss\n\n*** or using package.json: ***\n\n    \"combine-rss\": \"*\"\n\n##example\n    # Coffeescript\n\n    # rss feed urls\n    apple    = \"http://images.apple.com/main/rss/hotnews/hotnews.rss\"\n    livedoor = \"http://news.livedoor.com/topics/rss/trend.xml\"\n\n    # schema\n    schema = \n      title: \"combiner_rss\"\n      description: \"node_rss_combine\"\n      feed_url: \"http://nikezono.net/rss.xml\"\n      site_url: \"http://nikezono.net\"\n      image_url: \"http://nikezono.net/favicon.ico\"\n      author: \"nikezono\"\n\n    # require\n    combiner = require('combine-rss').combiner()\n\n    # add\n    combiner.add [apple,livedoor]\n\n    # delete\n    combiner.del livedoor, (urls)->\n      console.log urls\n      # => [\"http://images.apple.com/main/rss/hotnews/hotnews.rss\"]\n\n    # combine\n    combiner.combine (rss)->\n      console.log rss.articles\n        # => combined articles array\n      rss.output schema,(xml)->\n        console.log xml\n        # => xml string\n\n    # combine(async)\n    combiner.combine()\n    setTimeout ->\n      rss = combiner.rss()\n      rss.output schema,(xml)->\n        console.log xml\n        # => xml string\n    ,500\n\n    #crawl(alias)\n    combiner.crawl (rss)->\n      rss.output schema,(xml)->\n        console.log xml\n        # => xml string\n      console.log rss.articles\n        # => combined articles array\n\n\n\n## API\n\n### Combiner\n\n#### combiner.add(feed_url,[callback])\nadd **feed url** to instance property.\n#####Arguments\n\n* feed_url - either `String` and `Array` type argument is possible.\n* callback(urls) - Optional. This function gets urls Array containing all added urls.\n\n#### combiner.del(feed_url,[callback])\ndelete **feed url** in instance property.\n#####Arguments\n\n* feed_url - either `String` and `Array` type argument is possible.\n* callback(urls) - Optional. This function gets urls Array containing all added urls.\n\n#### combiner.deleteAll()\ndelete all url in instance property.\n\n#### combiner.geturls()\nReturn urls Array containing all added urls.\n\n#### combiner.combine([callback])\ncombine all urls to single rss object.\n#####Arguments\n\n* callback(rss) - Optional. This function gets `rss` object which combined all added urls.\n\n#### combiner.rss()\nReturn RSS objects.\n\n#### combiner.crawl([callback])\nalias to `combine()`.\n\n### RSS\n\n#### rss.articles\nReturn rss Object Array sorted by PubDate and descending order.\neach object is parsed by [node-parse-rss](https://github.com/nikezono/node-parse-rss) and this module is wrapper of [feedparser](https://github.com/danmactough/node-feedparser).\n\n#### rss.output(schema,callback)\noutput rss xml.\n#####Arguments\n\n* schema - your RSS feed's schema.\n\n**example**\n\n      title: \"combiner_rss\"\n      description: \"node_rss_combine\"\n      feed_url: \"http://nikezono.net/rss.xml\"\n      site_url: \"http://nikezono.net\"\n      image_url: \"http://nikezono.net/favicon.ico\"\n      author: \"nikezono\"\n\n* callback(xml) - This function gets xml string which combined all added urls.\n\n### Articles parameter(quote from [feedparser](https://github.com/danmactough/node-feedparser).)\n##### List of meta properties\n\n* title\n* description\n* link (website link)\n* xmlurl (the canonical link to the feed, as specified by the feed)\n* date (most recent update)\n* pubdate (original published date)\n* author\n* language\n* image (an Object containing `url` and `title` properties)\n* favicon (a link to the favicon -- only provided by Atom feeds)\n* copyright\n* generator\n* categories (an Array of Strings)\n\n##### List of article properties\n\n* title\n* description (frequently, the full article content)\n* summary (frequently, an excerpt of the article content)\n* link\n* origlink (when FeedBurner or Pheedo puts a special tracking url in the `link` property, `origlink` contains the original link)\n* date (most recent update)\n* pubdate (original published date)\n* author\n* guid (a unique identifier for the article)\n* comments (a link to the article's comments section)\n* image (an Object containing `url` and `title` properties)\n* categories (an Array of Strings)\n* source (an Object containing `url` and `title` properties pointing to the original source for an article; see the [RSS Spec](http://cyber.law.harvard.edu/rss/rss.html#ltsourcegtSubelementOfLtitemgt) for an explanation of this element)\n* enclosures (an Array of Objects, each representing a podcast or other enclosure and having a `url` property and possibly `type` and `length` properties)\n* meta (an Object containing all the feed meta properties; especially handy when using the EventEmitter interface to listen to `article` emissions)\n",
+  "readmeFilename": "README.md",
+  "_id": "combine-rss@0.0.3",
+  "dist": {
+    "shasum": "26009e62a44e7dc0f9ece34de1c4954e6402795e"
+  },
+  "_from": "combine-rss@*",
+  "_resolved": "https://registry.npmjs.org/combine-rss/-/combine-rss-0.0.3.tgz"
 }
