@@ -1,21 +1,15 @@
 module.exports.combiner = ->
 
   # utility
-  async      = require 'async'
-  _          = require 'underscore'
-  url        = require 'url'
-  path       = require 'path'
-  http       = require 'http'
-
-  # dependency
-  parser  = require 'parse-rss'
+  async = require 'async'
+  feed  = require 'feed-read'
+  _     = require 'underscore'
 
   # user lib
   rss     = (require('./rss')).rss()
 
   # instance property
   urls = []
-
 
   #ObjectのURLを前削除
   deleteAll: ->
@@ -24,7 +18,7 @@ module.exports.combiner = ->
 
   # add ObjectにURLを追加する
   # @url [String or Array] １つ以上のurl
-  add: (req,callback)->
+  add: (req, callback)->
     if _.isString(req)
       urls.push req
       callback urls if callback?
@@ -37,7 +31,7 @@ module.exports.combiner = ->
 
   # delete ObjectからURLを削除する
   # @url [String or Array] １つ以上のurl
-  del: (req,callback)->
+  del: (req, callback)->
     if _.isString(req)
       urls = _.reject urls,(iterator_url)->
         return iterator_url is req
@@ -55,14 +49,14 @@ module.exports.combiner = ->
   # @callback(option) rss Objectを返す(combiner.rssでバックグラウンド実行&同期取得できる)
   combine: (callback)->
     rss.init()
-    async.forEach urls,(url,cb)->
-      parser url, (err,articles)->
+    async.forEach urls, (url, cb) ->
+      feed url, (err, articles) ->
         return cb() if err
-        rss.articles = rss.articles.concat articles
+        rss.articles.push articles...
         return cb()
-    ,->
+    , ->
       rss.articles = _.sortBy _.uniq(rss.articles), (article)->
-        return article.pubDate.getTime()
+        return article.published.getTime()
       rss.articles.reverse()
       callback rss if callback?
 

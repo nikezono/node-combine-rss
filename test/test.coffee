@@ -55,7 +55,7 @@ describe "#del", ->
 
   it "Arrayの削除", ->
     combiner.del [apple,livedoor],(urls)->
-      assert.equal urls.length, 1 
+      assert.equal urls.length, 1
 
   it "非同期(non-callbacking)", ->
     combiner.del apple
@@ -92,13 +92,13 @@ describe "#combine", ->
     ,1000
 
   it "日付別に並んでいる", ->
-    one   = rss.articles[0].pubDate.getTime()
-    two   = rss.articles[1].pubDate.getTime()
-    three = rss.articles[2].pubDate.getTime()
+    one   = rss.articles[0].published.getTime()
+    two   = rss.articles[1].published.getTime()
+    three = rss.articles[2].published.getTime()
     assert.equal true, (one >= two >= three)
 
   it "#rss.output - XMLが出力される", ->
-    combiner.rss().output 
+    combiner.rss().output
       title: "combiner_rss"
       description: "node_rss_combine"
       feed_url: "http://nikezono.net/rss.xml"

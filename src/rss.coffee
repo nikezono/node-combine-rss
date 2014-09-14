@@ -7,7 +7,7 @@ module.exports.rss = ->
 
   # instance property
   articles : []
-  
+
   ###
   # output xmlを出力する
   # @schema [hash] スキーマのハッシュ
